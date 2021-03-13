@@ -111,7 +111,7 @@ def calculS(rabp,rabs,tabp,tabs,beta):
 def calculR(N0,N2,N,phi0,omega,d1,d2,c):
     R = np.zeros(len(omega))
     N1 = Nslab(omega)
-    for i in range(0,len(omega)-1):  
+    for i in range(0,len(omega)):  
         Nn = Nmultislab(N0,N1[i],N2,N)
         phi = calculphi(Nn,N,phi0)
         rabp,rabs,tabp,tabs = fresnel(phi,Nn,N)
@@ -130,7 +130,7 @@ def calculR(N0,N2,N,phi0,omega,d1,d2,c):
 def calculT(N0,N2,N,phi0,omega,d1,d2,c):
     T = np.zeros(len(omega))
     N1 = Nslab(omega)
-    for i in range(0,len(omega)-1):  
+    for i in range(0,len(omega)):  
         Nn = Nmultislab(N0,N1[i],N2,N)
         phi = calculphi(Nn,N,phi0)
         rabp,rabs,tabp,tabs = fresnel(phi,Nn,N)
@@ -168,29 +168,29 @@ c = 3*10**8
 d1 = 94.69*10**-9
 d2 = 428.57*10**-9
 phi0 = 0
-N = 2
+N = 5
 N0 = 1-1j*0
 N2 = 1-1j*0
 R = calculR(N0,N2,N,phi0,omega,d1,d2,c)
 T = calculT(N0,N2,N,phi0,omega,d1,d2,c)
 A = calculA(R,T)
 
-d11 = np.linspace(90*10**(-9),10**(-7),50)
-d22 = np.linspace(2*10**(-6),0.3*10**(-5),50)
+d11 = np.linspace(10**(-9),10**(-7),50)
+d22 = np.linspace(10**(-8),10**(-6),50)
 vv = np.linspace(0,0.2*c,100)
 beta1 = vv/c
 omegav = 0.9*(1.338*10**15)*np.sqrt((1-beta1)/(1+beta1))
 Rmoy = np.zeros((50,50))
 D = np.zeros((50,50))
-for i in range(0,len(d11)-1):
-    for j in range(0,len(d22)-1):
+for i in range(0,len(d11)):
+    for j in range(0,len(d22)):
         Rv = calculR(N0,N2,N,phi0,omegav,d11[i],d22[j],c)
         D[i,j],Rmoy[i,j]=calculDRmoy(N,vv,omegav,d11[i],d22[j],Rv)
 maxR = 0
 indice1 = 0
 indice2 = 0
-for k in range(0,len(d11)-1):
-    for l in range(0,len(d22)-1):
+for k in range(0,len(d11)):
+    for l in range(0,len(d22)):
         if Rmoy[k,l] > maxR:
             maxR = Rmoy[k,l]
             indice1 = k
@@ -205,10 +205,10 @@ plt.ylabel('Reflectivity,Transmittivity and Absorbance [/]')
 plt.title('Reflectivity,Transmittivity and Absorbance in order of frequency')
 plt.show()
 
-plt.imshow(Rmoy,cmap='gray',extent=(d11[0],d11[-1],d22[0],d22[-1]))
+plt.imshow(Rmoy,cmap='gray',extent=[d11[0],d11[-1],d22[0],d22[-1]])
 plt.colorbar()
 plt.show()
-plt.imshow(1/D*10**10,cmap='gray',extent=(d11[0],d11[-1],d22[0],d22[-1]))
+plt.imshow(1/D,cmap='gray',extent=[d11[0],d11[-1],d22[0],d22[-1]])
 plt.colorbar()
 
         
