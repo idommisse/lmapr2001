@@ -175,8 +175,11 @@ R = calculR(N0,N2,N,phi0,omega,d1,d2,c)
 T = calculT(N0,N2,N,phi0,omega,d1,d2,c)
 A = calculA(R,T)
 
+#lignes à modifier
 d11 = np.linspace(10**(-9),10**(-7),50)
 d22 = np.linspace(10**(-8),10**(-6),50)
+#fin des lignes à modifier
+
 vv = np.linspace(0,0.2*c,100)
 beta1 = vv/c
 omegav = 0.9*(1.338*10**15)*np.sqrt((1-beta1)/(1+beta1))
@@ -195,7 +198,20 @@ for k in range(0,len(d11)):
             maxR = Rmoy[k,l]
             indice1 = k
             indice2 = l 
-print(maxR,d11[indice1],d22[indice2])    
+print(maxR,d11[indice1],d22[indice2],D[indice1,indice2])    
+
+minD = 10**18
+indice3 = 0
+indice4 = 0
+for k in range(0,len(d11)):
+    for l in range(0,len(d22)):
+        if D[k,l] < minD:
+            minD = D[k,l]
+            indice3 = k
+            indice4 = l 
+print(minD,d11[indice3],d22[indice4],Rmoy[indice3,indice4]) 
+
+
 plt.plot(omega,R)
 plt.plot(omega,T)
 plt.plot(omega,A)
