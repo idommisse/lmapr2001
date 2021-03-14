@@ -355,7 +355,7 @@ def MapRmoy(n1,n2,d11,d12,d21,d22,N,phi0,nsamples) :
     plt.scatter(d1max,d2max,color='red', s=50)
     plt.xlabel("Slab (d1) thickness [µm]")
     plt.ylabel("Aerogel (d2) thickness [µm]")
-    plt.title("Maximum : R = {0:.3f}\nat d1 = {1:.3f} µm and d2 = {2:.3f} µm\nAcc. D = {3:.3f} millions of km".format(RmoyMax,d1max,d2max,computeAccD(d1max,d2max,N,phi0,nsamples)/1e9))
+    plt.title("Maximum : R = {0:.10f}\nat d1 = {1:.3f} µm and d2 = {2:.3f} µm\nAcc. D = {3:.3f} millions of km".format(RmoyMax,d1max,d2max,computeAccD(d1max,d2max,N,phi0,nsamples)/1e9))
     plt.savefig('AverageReflectivityMap/<R>_thickness=({0}nm-{1}nm)x({2}nm-{3}nm)_res=({4})x({5}).pdf'.format(d1[0]*1000,d1[-1]*1000,d2[0]*1000,d2[-1]*1000,n1,n2))
     plt.show()
     
