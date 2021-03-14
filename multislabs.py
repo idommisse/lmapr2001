@@ -359,24 +359,24 @@ def MapRmoy(n1,n2,d11,d12,d21,d22,N,phi0,nsamples) :
     plt.savefig('AverageReflectivityMap/<R>_thickness=({0}nm-{1}nm)x({2}nm-{3}nm)_res=({4})x({5}).pdf'.format(d1[0]*1000,d1[-1]*1000,d2[0]*1000,d2[-1]*1000,n1,n2))
     plt.show()
     
-def MapAccD(n1,n2,d11,d12,d21,N,phi0,nsamples):
+def MapAccD(n1,n2,d11,d12,d21,d22,N,phi0,nsamples):
     d1 = np.linspace(d11,d12,n1)
     d2 = np.linspace(d21,d22,n2)
     AccD = np.zeros((n1,n2))
     for i in tqdm(range(n1)) : 
         for j in range(n2) : 
-            AccD[i,j] = computeAccD(d1[i],d2[j],N,phi0,nsamples)
-    AccDMin = np.min(np.reshape(AccD,n1*n2))
-    argMinIndex = np.argmin(np.reshape(AccD,n1*n2))
-    d2min = d2[-((argMinIndex//n2)+1)]
-    d1min = d1[(argMinIndex%n2)]
+            AccD[i,j] = 1/computeAccD(d1[i],d2[j],N,phi0,nsamples)
+    AccDMax = np.max(np.reshape(AccD,n1*n2))
+    argMaxIndex = np.argmax(np.reshape(AccD,n1*n2))
+    d2max = d2[-((argMaxIndex//n2)+1)]
+    d1max = d1[(argMaxIndex%n2)]
     plt.figure(figsize=(10,10))
     myMap = plt.imshow(AccD,cmap='gray',extent=[d11,d12,d21,d22])
     plt.colorbar()
-    plt.scatter(d1min,d2min,color='red', s=50)
+    plt.scatter(d1max,d2max,color='red', s=50)
     plt.xlabel("Slab (d1) thickness [µm]")
     plt.ylabel("Aerogel (d2) thickness [µm]")
-    plt.title("Minimum : Acc. D = {0:.3f} millions of km\nat d1 = {1:.3f} µm and d2 = {2:.3f} µm\nR = {3:.3f}".format(AccDMin/1e9,d1min,d2min,computeRMoy(d1min,d2min,N,phi0,nsamples)))
+    plt.title("Minimum : Acc. D = {0:.3f} millions of km\nat d1 = {1:.3f} µm and d2 = {2:.3f} µm\nR = {3:.3f}".format(1/(AccDMax*1e9),d1max,d2max,computeRMoy(d1max,d2max,N,phi0,nsamples)))
     plt.savefig('AccelerationDistanceMap/AccD_thickness=({0}nm-{1}nm)x({2}nm-{3}nm)_res=({4})x({5}).pdf'.format(d1[0]*1000,d1[-1]*1000,d2[0]*1000,d2[-1]*1000,n1,n2))
     plt.show()
     
@@ -384,5 +384,3 @@ def MapAccD(n1,n2,d11,d12,d21,N,phi0,nsamples):
 ###################################################################################################
 ###################################################################################################
 ###################################################################################################
-
-MapRmoy(100,100,0,1,0,1,5,0,500)
