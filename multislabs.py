@@ -367,7 +367,7 @@ def MapAccD(n1,n2,d11,d12,d21,d22,N,phi0,nsamples):
         for j in range(n2) : 
             AccD[i,j] = 1/computeAccD(d1[i],d2[j],N,phi0,nsamples)
     AccDMax = np.max(np.reshape(AccD,n1*n2))
-    argMaxIndex = np.argmax(np.reshape(AccD,n1*n2))
+    argMaxIndex = np.nanargmax(np.reshape(AccD,n1*n2))
     d2max = d2[-((argMaxIndex//n2)+1)]
     d1max = d1[(argMaxIndex%n2)]
     plt.figure(figsize=(10,10))
