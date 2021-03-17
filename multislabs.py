@@ -356,6 +356,20 @@ def MapRmoy(n1,n2,d11,d12,d21,d22,N,phi0,nsamples) :
     plt.savefig('AverageReflectivityMap/<R>_thickness=({0}nm-{1}nm)x({2}nm-{3}nm)_res=({4})x({5}).pdf'.format(d1[0]*1000,d1[-1]*1000,d2[0]*1000,d2[-1]*1000,n1,n2))
     plt.show()
     
+def calculDRmoy(N,vv,omegav,d1,d2,Rv):
+    I0 = 10e9
+    mpayload = 1e-4
+    Area = 10
+    density = 4.89*10**(3)
+    c = 3*10**8
+    msail = mpayload+N*d1*density*Area
+    mt = msail+mpayload
+    gamma = 1/(np.sqrt(1-(vv**2/c**2)))
+    y = mt*gamma*vv/(Rv*((1-vv/c)**2))
+    int1 = np.trapz(y,vv)
+    D = (c/(2*I0*Area))*int1
+    return D  
+   
 def MapAccD(n1,n2,d11,d12,d21,d22,N,phi0,nsamples):
     """
     thicknesses in micrometers
